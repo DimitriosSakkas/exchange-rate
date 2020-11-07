@@ -1,5 +1,6 @@
 package com.bk.exchangerate.controller;
 
+import com.bk.exchangerate.exception.NoWorkingDayException;
 import com.bk.exchangerate.exception.WrongDateException;
 import com.bk.exchangerate.model.RateValue;
 import com.bk.exchangerate.model.client.RatesClient;
@@ -8,6 +9,7 @@ import com.bk.exchangerate.service.ExchangeRateClientService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 @RestController
@@ -46,6 +48,10 @@ public class ExchangeRateController {
     }
 
     private void checkDate(LocalDate date) {
+        if ((date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+            throw new NoWorkingDayException(date);
+        }
+
         LocalDate before2000 = LocalDate.of(2000, 1, 1);
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
