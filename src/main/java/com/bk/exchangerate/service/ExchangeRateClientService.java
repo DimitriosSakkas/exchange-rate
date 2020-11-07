@@ -14,9 +14,9 @@ public interface ExchangeRateClientService {
 
     RatesClient getRates(final int year, final int month, final int day);
 
-    void saveExchangeRates(final ExchangeRateDto dto,
-                           final LocalDate date,
-                           final RateValue baseCurrency,
-                           final RateValue targetCurrency);
+    ExchangeRateDto saveExchangeRates(final ExchangeRateDto dto,
+                                      final LocalDate date,
+                                      final RateValue baseCurrency,
+                                      final RateValue targetCurrency);
 
 }

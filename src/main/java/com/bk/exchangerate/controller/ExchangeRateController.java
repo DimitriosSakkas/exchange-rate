@@ -27,8 +27,7 @@ public class ExchangeRateController {
 
         checkDate(date);
         ExchangeRateDto dto = exchangeRateClientService.getExchangeRates(date, baseCurrency, targetCurrency);
-        exchangeRateClientService.saveExchangeRates(dto, date, baseCurrency, targetCurrency);
-        return dto;
+        return exchangeRateClientService.saveExchangeRates(dto, date, baseCurrency, targetCurrency);
     }
 
     @GetMapping("/history/daily/{yyyy}/{MM}/{dd}")

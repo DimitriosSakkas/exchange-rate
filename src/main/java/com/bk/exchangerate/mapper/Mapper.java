@@ -22,4 +22,11 @@ public class Mapper {
         return dao;
     }
 
+    public static ExchangeRateDto mapToExchangeRateDto(final ExchangeRateDao dao) {
+        ExchangeRateDto dto = new ExchangeRateDto();
+        dto.setExchangeRate(dao.getExchangeRate());
+        dto.setExchangeRateAverage(dao.getExchangeRateAverage());
+        dto.setExchangeRateTrend(dao.getExchangeRateTrend());
+        return dto;
+    }
 }

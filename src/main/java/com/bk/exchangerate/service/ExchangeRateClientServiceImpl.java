@@ -79,11 +79,11 @@ public class ExchangeRateClientServiceImpl implements ExchangeRateClientService 
     }
 
     @Override
-    public void saveExchangeRates(final ExchangeRateDto dto,
-                                  final LocalDate date,
-                                  final RateValue baseCurrency,
-                                  final RateValue targetCurrency) {
-        exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency));
+    public ExchangeRateDto saveExchangeRates(final ExchangeRateDto dto,
+                                             final LocalDate date,
+                                             final RateValue baseCurrency,
+                                             final RateValue targetCurrency) {
+        return Mapper.mapToExchangeRateDto(exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency)));
     }
 
     private float calculateExchangeRate(final RatesClient ratesClient,

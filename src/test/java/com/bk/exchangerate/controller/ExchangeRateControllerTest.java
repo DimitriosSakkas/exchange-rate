@@ -57,7 +57,8 @@ public class ExchangeRateControllerTest {
                 .thenReturn(dto);
 
         // when & then
-        mockMvc.perform(put(baseUrlExchangeRates, dateValid, baseCurrency, targetCurrency))
+        mockMvc
+                .perform(put(baseUrlExchangeRates, dateValid, baseCurrency, targetCurrency))
                 .andExpect(status().isOk());
         //.andExpect(dto));
     }
@@ -71,7 +72,8 @@ public class ExchangeRateControllerTest {
                 .thenReturn(dto);
 
         // when & then
-        mockMvc.perform(get(baseUrlDaily, dateValid, baseCurrency, targetCurrency))
+        mockMvc
+                .perform(get(baseUrlDaily, dateValid, baseCurrency, targetCurrency))
                 .andExpect(status().isOk());
         //.andExpect(dto));
     }
@@ -85,7 +87,8 @@ public class ExchangeRateControllerTest {
                 .thenReturn(dto);
 
         // when & then
-        mockMvc.perform(get(baseUrlMonthly, dateValid, baseCurrency, targetCurrency))
+        mockMvc
+                .perform(get(baseUrlMonthly, dateValid, baseCurrency, targetCurrency))
                 .andExpect(status().isOk());
         //.andExpect(dto));
     }
