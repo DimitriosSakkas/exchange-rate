@@ -20,7 +20,6 @@ public class ExchangeRateController {
         this.exchangeRateClientService = exchangeRateClientService;
     }
 
-    @ExceptionHandler({WrongDateException.class})
     @PutMapping("/{date}/{baseCurrency}/{targetCurrency}")
     public ExchangeRateDto getExchangeRates(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                             @PathVariable RateValue baseCurrency,
@@ -52,7 +51,7 @@ public class ExchangeRateController {
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
         if (date.isBefore(before2000) || date.isAfter(yesterday)) {
-            throw new WrongDateException("The following date is before 2000-01-01 or after yesterday, " + date);
+            throw new WrongDateException(date);
         }
     }
 }
