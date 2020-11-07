@@ -219,6 +219,32 @@ public class ExchangeRateClientServiceImplTest {
                 .when(exchangeRateRepository
                         .save(ArgumentMatchers.any(ExchangeRateDao.class)))
                 .thenReturn(dao);
+        Mockito
+                .when(exchangeRateRepository
+                        .findByDate(ArgumentMatchers.any(LocalDate.class)))
+                .thenReturn(null);
+
+        // when
+        ExchangeRateDto result = exchangeRateClientService
+                .saveExchangeRates(
+                        dto,
+                        LocalDate.parse(MockRate.date5),
+                        MockRate.baseCurrency,
+                        MockRate.targetCurrency);
+
+        // then
+        Assertions.assertEquals(dto, result);
+    }
+
+    @Test
+    public void shouldNotSaveExchangeRatesIfAlreadyExists() {
+        // given
+        ExchangeRateDao dao = MockRate.createExchangeRateDao();
+        ExchangeRateDto dto = MockRate.createExchangeRateDto();
+        Mockito
+                .when(exchangeRateRepository
+                        .findByDate(ArgumentMatchers.any(LocalDate.class)))
+                .thenReturn(dao);
 
         // when
         ExchangeRateDto result = exchangeRateClientService

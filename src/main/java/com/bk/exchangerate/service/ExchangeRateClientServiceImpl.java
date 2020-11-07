@@ -4,6 +4,7 @@ import com.bk.exchangerate.client.ExchangeRateClient;
 import com.bk.exchangerate.mapper.Mapper;
 import com.bk.exchangerate.model.RateValue;
 import com.bk.exchangerate.model.client.RatesClient;
+import com.bk.exchangerate.model.dao.ExchangeRateDao;
 import com.bk.exchangerate.model.dto.ExchangeRateDto;
 import com.bk.exchangerate.model.dto.ExchangeRateTrend;
 import com.bk.exchangerate.repository.ExchangeRateRepository;
@@ -83,7 +84,12 @@ public class ExchangeRateClientServiceImpl implements ExchangeRateClientService 
                                              final LocalDate date,
                                              final RateValue baseCurrency,
                                              final RateValue targetCurrency) {
-        return Mapper.mapToExchangeRateDto(exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency)));
+        ExchangeRateDao dao = exchangeRateRepository.findByDate(date);
+        if (dao == null) {
+            return Mapper.mapToExchangeRateDto(exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency)));
+        } else {
+            return Mapper.mapToExchangeRateDto(dao);
+        }
     }
 
     private float calculateExchangeRate(final RatesClient ratesClient,
