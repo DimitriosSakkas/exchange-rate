@@ -9,6 +9,7 @@ import com.bk.exchangerate.model.dto.ExchangeRateTrend;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MockRate {
 
@@ -24,9 +25,7 @@ public class MockRate {
     public static final int dayDate5 = 11;
     public static final String dateInValid2 = LocalDate.now().toString();
     public static final RateValue baseCurrency = RateValue.AUD;
-    public static final float baseCurrencyValue = 1.541f;
     public static final RateValue targetCurrency = RateValue.BGN;
-    public static final float targetCurrencyValue = 9.3952f;
     public static final RateValue base = RateValue.EUR;
 
     public static final float mockExchangeRate = 0.03243323f;
@@ -53,34 +52,37 @@ public class MockRate {
         return dao;
     }
 
-
-    public static RatesClient createRatesClientDaily() {
-        RatesClient ratesClient = new RatesClient();
-        return ratesClient;
-    }
-
-    public static RatesClient createRatesClientMonthly() {
+    public static RatesClient createRatesClient(TreeMap<LocalDate, Map<RateValue, Float>> rates) {
         RatesClient ratesClient = new RatesClient();
         ratesClient.setBase(base);
         ratesClient.setStartAt(LocalDate.parse(MockRate.date1));
-        //ratesClient.setEndAt(LocalDate.parse(MockRate.endAt));
-        // ratesClient.setRates();
+        ratesClient.setEndAt(LocalDate.parse(MockRate.date5));
+        ratesClient.setRates(rates);
         return ratesClient;
     }
 
-    private static Map<LocalDate, Map<RateValue, Float>> createRatesDaily() {
-        Map<RateValue, Float> rateValueFloatMap = new HashMap<>();
-        rateValueFloatMap.put(baseCurrency, baseCurrencyValue);
-        rateValueFloatMap.put(targetCurrency, targetCurrencyValue);
-        Map<LocalDate, Map<RateValue, Float>> rates = new HashMap<>();
+    public static TreeMap<LocalDate, Map<RateValue, Float>> createRates(
+            Map<RateValue, Float> rate1,
+            Map<RateValue, Float> rate2,
+            Map<RateValue, Float> rate3,
+            Map<RateValue, Float> rate4,
+            Map<RateValue, Float> rate5
+    ) {
+        TreeMap<LocalDate, Map<RateValue, Float>> rates = new TreeMap<>();
+        rates.put(LocalDate.parse(MockRate.date1), rate1);
+        rates.put(LocalDate.parse(MockRate.date2), rate2);
+        rates.put(LocalDate.parse(MockRate.date3), rate3);
+        rates.put(LocalDate.parse(MockRate.date4), rate4);
+        rates.put(LocalDate.parse(MockRate.date5), rate5);
         return rates;
     }
 
-    private static Map<LocalDate, Map<RateValue, Float>> createRatesMonthly() {
-        Map<RateValue, Float> rateValueFloatMap = new HashMap<>();
-        rateValueFloatMap.put(baseCurrency, baseCurrencyValue);
-        rateValueFloatMap.put(targetCurrency, targetCurrencyValue);
-        Map<LocalDate, Map<RateValue, Float>> rates = new HashMap<>();
-        return rates;
+    public static Map<RateValue, Float> createRate(float baseCurrencyValue, float targetCurrencyValue) {
+        Map<RateValue, Float> rate = new HashMap<>();
+        rate.put(baseCurrency, baseCurrencyValue);
+        rate.put(targetCurrency, targetCurrencyValue);
+        return rate;
     }
+
+
 }
