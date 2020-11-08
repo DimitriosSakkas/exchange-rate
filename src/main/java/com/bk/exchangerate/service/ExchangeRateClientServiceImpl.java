@@ -8,6 +8,7 @@ import com.bk.exchangerate.model.dao.ExchangeRateDao;
 import com.bk.exchangerate.model.dto.ExchangeRateDto;
 import com.bk.exchangerate.model.dto.ExchangeRateTrend;
 import com.bk.exchangerate.repository.ExchangeRateRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ExchangeRateClientServiceImpl implements ExchangeRateClientService {
 
     private final ExchangeRateClient exchangeRateClient;
@@ -84,12 +86,14 @@ public class ExchangeRateClientServiceImpl implements ExchangeRateClientService 
                                              final LocalDate date,
                                              final RateValue baseCurrency,
                                              final RateValue targetCurrency) {
-        ExchangeRateDao dao = exchangeRateRepository.findByDate(date);
-        if (dao == null) {
-            return Mapper.mapToExchangeRateDto(exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency)));
-        } else {
-            return Mapper.mapToExchangeRateDto(dao);
-        }
+
+        return Mapper.mapToExchangeRateDto(
+                exchangeRateRepository.findByDate(date)
+                        .orElseGet(() -> {
+                            ExchangeRateDao dao = exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency));
+                            log.info("Exchange rate is saved in db: {}", dao);
+                            return dao;
+                        }));
     }
 
     private float calculateExchangeRate(final RatesClient ratesClient,

@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class ExchangeRateClientServiceImplTest {
@@ -222,7 +223,7 @@ public class ExchangeRateClientServiceImplTest {
         Mockito
                 .when(exchangeRateRepository
                         .findByDate(ArgumentMatchers.any(LocalDate.class)))
-                .thenReturn(null);
+                .thenReturn(Optional.empty());
 
         // when
         ExchangeRateDto result = exchangeRateClientService
@@ -244,7 +245,7 @@ public class ExchangeRateClientServiceImplTest {
         Mockito
                 .when(exchangeRateRepository
                         .findByDate(ArgumentMatchers.any(LocalDate.class)))
-                .thenReturn(dao);
+                .thenReturn(Optional.of(dao));
 
         // when
         ExchangeRateDto result = exchangeRateClientService
