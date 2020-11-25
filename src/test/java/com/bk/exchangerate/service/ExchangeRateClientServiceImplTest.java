@@ -222,7 +222,9 @@ public class ExchangeRateClientServiceImplTest {
                 .thenReturn(dao);
         Mockito
                 .when(exchangeRateRepository
-                        .findByDate(ArgumentMatchers.any(LocalDate.class)))
+                        .findByDateAndBaseCurrencyAndTargetCurrency(ArgumentMatchers.any(LocalDate.class),
+                                ArgumentMatchers.any(RateValue.class),
+                                ArgumentMatchers.any(RateValue.class)))
                 .thenReturn(Optional.empty());
 
         // when
@@ -244,7 +246,9 @@ public class ExchangeRateClientServiceImplTest {
         ExchangeRateDto dto = MockRate.createExchangeRateDto();
         Mockito
                 .when(exchangeRateRepository
-                        .findByDate(ArgumentMatchers.any(LocalDate.class)))
+                        .findByDateAndBaseCurrencyAndTargetCurrency(ArgumentMatchers.any(LocalDate.class),
+                                ArgumentMatchers.any(RateValue.class),
+                                ArgumentMatchers.any(RateValue.class)))
                 .thenReturn(Optional.of(dao));
 
         // when

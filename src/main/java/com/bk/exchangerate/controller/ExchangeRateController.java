@@ -55,6 +55,7 @@ public class ExchangeRateController {
         LocalDate before2000 = LocalDate.of(2000, 1, 1);
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
+        // This has to be before checking SATURDAY or SUNDAY
         if (date.isBefore(before2000) || date.isAfter(yesterday)) {
             throw new WrongDateException(date);
         }

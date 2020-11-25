@@ -88,7 +88,7 @@ public class ExchangeRateClientServiceImpl implements ExchangeRateClientService 
                                              final RateValue targetCurrency) {
 
         return Mapper.mapToExchangeRateDto(
-                exchangeRateRepository.findByDate(date)
+                exchangeRateRepository.findByDateAndBaseCurrencyAndTargetCurrency(date, baseCurrency, targetCurrency)
                         .orElseGet(() -> {
                             ExchangeRateDao dao = exchangeRateRepository.save(Mapper.mapToExchangeRateDao(dto, date, baseCurrency, targetCurrency));
                             log.info("Exchange rate is saved in db: {}", dao);
@@ -115,7 +115,7 @@ public class ExchangeRateClientServiceImpl implements ExchangeRateClientService 
             check.add(exchangeRates.get(i - 1) - exchangeRates.get(i));
         }
 
-        if (check.stream().allMatch(t -> t > 0)) {
+        /*if (check.stream().allMatch(t -> t > 0)) {
             return ExchangeRateTrend.DESCENDING;
         } else if (check.stream().allMatch(t -> t < 0)) {
             return ExchangeRateTrend.ASCENDING;
@@ -123,7 +123,9 @@ public class ExchangeRateClientServiceImpl implements ExchangeRateClientService 
             return ExchangeRateTrend.CONSTANT;
         } else {
             return ExchangeRateTrend.UNDEFINED;
-        }
+        }*/
+
+        return ExchangeRateTrend.getExchangeRateTrend(check);
     }
 
 }

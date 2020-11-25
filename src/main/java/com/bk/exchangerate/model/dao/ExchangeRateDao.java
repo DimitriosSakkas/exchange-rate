@@ -17,7 +17,8 @@ public class ExchangeRateDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDate date;
 
